@@ -45,25 +45,31 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('test'),
-        ),
-        body: SingleChildScrollView(
-            padding: const EdgeInsets.all(22),
-            child: CupertinoListSection(
-              backgroundColor: Colors.white,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12), color: Colors.white),
-              header: Wrap(
-                children: [
-                  TextButton(
-                      onPressed: _startScan, child: const Text('Start scan')),
-                  TextButton(onPressed: _stop, child: const Text("Stop scan"))
-                ],
+          appBar: AppBar(
+            title: const Text('super blue example'),
+          ),
+          body: CustomScrollView(
+            slivers: [
+              PinnedHeaderSliver(
+                child: Container(
+                  height: 48,
+                  alignment: Alignment.center,
+                  color: Colors.white,
+                  child: Wrap(
+                    children: [
+                      TextButton(
+                          onPressed: _startScan, child: const Text('开始扫描')),
+                      TextButton(onPressed: _stop, child: const Text("停止扫描"))
+                    ],
+                  ),
+                ),
               ),
-              children: [...events.map(_RenderItem.new)],
-            )),
-      ),
+              SliverPadding(
+                  padding: const EdgeInsets.all(12),
+                  sliver: SliverList.list(
+                      children: [...events.map(_RenderItem.new)]))
+            ],
+          )),
     );
   }
 
@@ -150,31 +156,39 @@ class _RenderDevice extends StatelessWidget {
   const _RenderDevice(this.device, {super.key});
   @override
   Widget build(BuildContext context) {
-    return CupertinoListTile(
-      leading: const Icon(Icons.device_unknown),
-      backgroundColor: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      title: Text(device.name ?? "---"),
-      additionalInfo: Text(device.address),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [const Icon(Icons.rss_feed_sharp), Text('${device.rssi}')],
-      ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (device.manufacturerData.isNotEmpty)
-            Text("Manufacturer:${device.getManufacturerData()}"),
-          Row(
-            children: [
-              ElevatedButton(
-                  onPressed: () async {
-                    await device.peripheral.connect();
-                  },
-                  child: const Text("try connect"))
-            ],
-          )
-        ],
+    return Card(
+      margin: const EdgeInsets.only(top: 12),
+      child: ListTile(
+        leading: const Icon(Icons.devices),
+        title: Text(device.name ?? "---"),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.rss_feed_sharp),
+            Text('${device.rssi ?? -1}')
+          ],
+        ),
+        subtitle: Row(
+          spacing: 12,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ElevatedButton(
+                onPressed: () async {
+                  await device.peripheral.connect();
+                },
+                child: const Text("连接蓝牙")),
+            ElevatedButton(
+                onPressed: () async {
+                  await device.peripheral.write(
+                      characteristic: BCharacteristic(
+                          serviceUuid: device.services.first,
+                          uuid: device.services.first),
+                      data: [],
+                      writeType: BWriteType.withoutResponse);
+                },
+                child: const Text("发送数据"))
+          ],
+        ),
       ),
     );
   }
