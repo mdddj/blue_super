@@ -1,5 +1,5 @@
 name: blue_super
-description: "A new Flutter FFI plugin project."
+description: "Dark Bluetooth scanner, made with Rust"
 version: 0.0.1
 
 environment:

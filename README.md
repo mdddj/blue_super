@@ -1,92 +1,58 @@
 # blue_super
 
-A new Flutter FFI plugin project.
+基于 Rust 的 Dart 蓝牙条码扫描插件
 
-## Getting Started
+## 安装
 
-This project is a starting point for a Flutter
-[FFI plugin](https://docs.flutter.dev/development/platform-integration/c-interop),
-a specialized package that includes native code directly invoked with Dart FFI.
-
-## Project structure
-
-This template uses the following structure:
-
-* `src`: Contains the native source code, and a CmakeFile.txt file for building
-  that source code into a dynamic library.
-
-* `lib`: Contains the Dart code that defines the API of the plugin, and which
-  calls into the native code using `dart:ffi`.
-
-* platform folders (`android`, `ios`, `windows`, etc.): Contains the build files
-  for building and bundling the native code library with the platform application.
-
-## Building and bundling native code
-
-The `pubspec.yaml` specifies FFI plugins as follows:
+在 `pubspec.yaml` 中添加依赖：
 
 ```yaml
-  plugin:
-    platforms:
-      some_platform:
-        ffiPlugin: true
+blue_super: any
 ```
 
-This configuration invokes the native build for the various target platforms
-and bundles the binaries in Flutter applications using these FFI plugins.
+## 权限配置
 
-This can be combined with dartPluginClass, such as when FFI is used for the
-implementation of one platform in a federated plugin:
+- Android 需在 `AndroidManifest.xml` 配置蓝牙和定位权限，并在运行时请求权限。
+- iOS/macOS 需在 `Info.plist` 配置蓝牙相关描述。
 
-```yaml
-  plugin:
-    implements: some_other_plugin
-    platforms:
-      some_platform:
-        dartPluginClass: SomeClass
-        ffiPlugin: true
+## 快速开始
+
+```dart
+import 'package:blue_super/blue_super.dart';
+import 'package:blue_super/api/blue.dart';
+
+Future<void> main() async {
+  await initBlueSuperLibaray();
+  // ... 启动你的App
+}
+
+// 获取默认蓝牙适配器并开始扫描
+defaultAdapter().then((adapter) {
+  final stream = adapter.listen();
+  stream.listen((event) {
+    // 处理蓝牙事件
+  });
+});
 ```
 
-A plugin can have both FFI and method channels:
+> Android 需在启动前调用 `requestBluetoothPermissions()` 申请权限。
 
-```yaml
-  plugin:
-    platforms:
-      some_platform:
-        pluginClass: SomeName
-        ffiPlugin: true
-```
+## 主要API
 
-The native build systems that are invoked by FFI (and method channel) plugins are:
+- `initBlueSuperLibaray()` 初始化库（必须调用）
+- `adapters()` 获取所有蓝牙适配器
+- `defaultAdapter()` 获取默认适配器
+- `BlueAdapter.listen()` 开始扫描，返回事件流
+- `BlueAdapter.stop()` 停止扫描
+- 事件类型：`BlueEvent.deviceDiscovered`、`deviceConnected`、`deviceDisconnected` 等
+- 设备操作：`DevicePeripheralId.peripheral.connect()` 连接设备
 
-* For Android: Gradle, which invokes the Android NDK for native builds.
-  * See the documentation in android/build.gradle.
-* For iOS and MacOS: Xcode, via CocoaPods.
-  * See the documentation in ios/blue_super.podspec.
-  * See the documentation in macos/blue_super.podspec.
-* For Linux and Windows: CMake.
-  * See the documentation in linux/CMakeLists.txt.
-  * See the documentation in windows/CMakeLists.txt.
+## 示例
 
-## Binding to native code
+详见 [example/lib/main.dart](example/lib/main.dart)
 
-To use the native code, bindings in Dart are needed.
-To avoid writing these by hand, they are generated from the header file
-(`src/blue_super.h`) by `package:ffigen`.
-Regenerate the bindings by running `dart run ffigen --config ffigen.yaml`.
+---
 
-## Invoking native code
+本项目基于 [flutter_rust_bridge](https://github.com/fzyzcjy/flutter_rust_bridge) 实现跨平台高性能蓝牙通信。
 
-Very short-running native functions can be directly invoked from any isolate.
-For example, see `sum` in `lib/blue_super.dart`.
-
-Longer-running functions should be invoked on a helper isolate to avoid
-dropping frames in Flutter applications.
-For example, see `sumAsync` in `lib/blue_super.dart`.
-
-## Flutter help
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 
