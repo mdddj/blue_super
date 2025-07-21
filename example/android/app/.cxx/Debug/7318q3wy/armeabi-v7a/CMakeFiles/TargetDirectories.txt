@@ -1,0 +1,2 @@
+/Users/hlx/github/rust_dart_plugins/blue_super/example/android/app/.cxx/Debug/7318q3wy/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/hlx/github/rust_dart_plugins/blue_super/example/android/app/.cxx/Debug/7318q3wy/armeabi-v7a/CMakeFiles/rebuild_cache.dir

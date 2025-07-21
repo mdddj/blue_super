@@ -6,6 +6,10 @@ allprojects {
 }
 
 rootProject.buildDir = "../build"
+
+//android {
+//    namespace 'com.example.blue_super'
+//}
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }

@@ -1,0 +1,22 @@
+PODS:
+  - blue_super (0.0.1):
+    - FlutterMacOS
+  - FlutterMacOS (1.0.0)
+
+DEPENDENCIES:
+  - blue_super (from `Flutter/ephemeral/.symlinks/plugins/blue_super/macos`)
+  - FlutterMacOS (from `Flutter/ephemeral`)
+
+EXTERNAL SOURCES:
+  blue_super:
+    :path: Flutter/ephemeral/.symlinks/plugins/blue_super/macos
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+
+SPEC CHECKSUMS:
+  blue_super: 6dd23b449c879fa6e95ff31fede914d284e015be
+  FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
+
+PODFILE CHECKSUM: da8daca7206bfe91ad14fef2943d912a6f4b51e3
+
+COCOAPODS: 1.16.2

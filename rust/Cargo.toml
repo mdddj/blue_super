@@ -1,0 +1,21 @@
+[package]
+name = "blue_super"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "staticlib"]
+
+[dependencies]
+bitflags = "2.6.0"
+btleplug = {version="0.11.5",features=["serde","serde_bytes","serde_cr"]}
+flutter_rust_bridge = { version = "=2.11.1", features = ["uuid"] }
+uuid = "1.10.0"
+
+#日志
+lazy_static = "1.5.0"
+log = "0.4.22"
+parking_lot = "0.12.3"
+simplelog = {version="0.12.2",futures=["time"]}
+time = "0.3.36"
+anyhow = "1.0.86"

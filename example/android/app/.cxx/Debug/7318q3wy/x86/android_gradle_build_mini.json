@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/ldd/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/ldd/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/hlx/github/rust_dart_plugins/blue_super/example/android/app/.cxx/Debug/7318q3wy/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/ldd/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/hlx/github/rust_dart_plugins/blue_super/example/android/app/.cxx/Debug/7318q3wy/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

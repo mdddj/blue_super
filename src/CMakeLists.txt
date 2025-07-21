@@ -15,3 +15,8 @@ set_target_properties(blue_super PROPERTIES
 )
 
 target_compile_definitions(blue_super PUBLIC DART_SHARED_LIB)
+
+if (ANDROID)
+  # Support Android 15 16k page size.
+  target_link_options(blue_super PRIVATE "-Wl,-z,max-page-size=16384")
+endif()
